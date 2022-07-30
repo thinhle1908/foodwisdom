@@ -18,22 +18,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ProductsController::class, 'index']);
 Route::get('/product-details/{id}', [ProductsController::class, 'getProductByID']);
 Route::get('/search', [ProductsController::class, 'search']);
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
-    })->name('dashboard');;
-});
-//Delete Product
-Route::get('/delete-product/{id}',[ProductsController::class,'destroy']);
+    })->name('dashboard')->middleware(['auth']);
+    //Delete Product
+Route::get('/delete-product/{id}', [ProductsController::class, 'destroy']);
 //Edit Product 
-Route::get('/edit-product/{id}',[ProductsController::class,'edit']);
-Route::post('/edit-product/{id}',[ProductsController::class,'update']);
+Route::get('/edit-product/{id}', [ProductsController::class, 'edit']);
+Route::post('/edit-product/{id}', [ProductsController::class, 'update']);
 //Add Product
-Route::get('/dashboard/add-product',[ProductsController::class,'create']);
-Route::post('/dashboard/add-product',[ProductsController::class,'store']);
+Route::get('/dashboard/add-product', [ProductsController::class, 'create']);
+Route::post('/dashboard/add-product', [ProductsController::class, 'store']);
 //View Product
 Route::get('/dashboard/product', [ProductsController::class, 'adminindex']);
+});
+
