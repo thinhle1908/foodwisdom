@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -21,8 +22,14 @@ Route::get('/search', [ProductsController::class, 'search']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
-    })->name('dashboard')->middleware(['auth']);
-    //Delete Product
+    })->name('dashboard')->middleware(['auth','isAdmin']);
+//Order
+//Delete-Order
+Route::get('/delete-order/{id}', [OrdersController::class, 'destroy']);
+//View Order
+Route::get('/dashboard/orders', [OrdersController::class, 'adminindex']);;
+//Product
+//Delete Product
 Route::get('/delete-product/{id}', [ProductsController::class, 'destroy']);
 //Edit Product 
 Route::get('/edit-product/{id}', [ProductsController::class, 'edit']);

@@ -130,7 +130,7 @@ class ProductsController extends Controller
         foreach ($arr_category as $key => $value) {
             $categoryproductcontroller->store($request, $id_last_product, $value);
         }
-        return ProductsController::adminindex();
+        return redirect('/dashboard/product');
     }
     public function destroy($id)
     {
@@ -138,6 +138,6 @@ class ProductsController extends Controller
         $success = $product->update([
             'visible' => 0
         ]);
-        return ProductsController::adminindex();
+        return redirect('/dashboard/product');
     }
 }

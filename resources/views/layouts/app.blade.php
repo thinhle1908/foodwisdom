@@ -163,6 +163,29 @@
               </div>
             </a>
           </li>
+          <!-- Order -->
+          <li class="menu-header small text-uppercase"><span class="menu-header-text">Order</span></li>
+          <li class="menu-item">
+            <a
+              href="{{ asset('dashboard/orders') }}"
+              class="menu-link"
+            >
+            <i class="fa-solid fa-cube" style="margin-right:10%"></i>
+              <div>View Order</div>
+            </a>
+          </li>
+           <!-- User -->
+          <li class="menu-header small text-uppercase"><span class="menu-header-text">View User</span></li>
+          <li class="menu-item">
+            <a
+              href="{{ asset('dashboard/view-user') }}"
+              class="menu-link"
+            >
+            <i class="fa-solid fa-cube" style="margin-right:10%"></i>
+              <div>View User</div>
+            </a>
+          </li>
+          
           </ul>
         </aside>
         <!-- / Menu -->
@@ -227,7 +250,7 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
+                            <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
                             <small class="text-muted">Admin</small>
                           </div>
                         </div>
@@ -279,7 +302,7 @@
 
           <!-- / Navbar -->
           <!-- Container -->
-          {{$slot}}
+          {{ $slot }}
           <!-- / Container -->
         </div>
         <!-- / Layout page -->
@@ -305,11 +328,11 @@
     <script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
     <!-- Main JS -->
-    <script src="{{asset('../assets/js/main.js')}}"></script>
+    <script src="{{ asset('../assets/js/main.js') }}"></script>
 
     <!-- Page JS -->
-    <script src="{{asset('../assets/js/dashboards-analytics.js')}}"></script>
-    <script src="{{asset('assets/js/pages-account-settings-account.js')}}"></script>
+    <script src="{{ asset('../assets/js/dashboards-analytics.js') }}"></script>
+    <script src="{{ asset('assets/js/pages-account-settings-account.js') }}"></script>
     <!-- Categories Script -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
