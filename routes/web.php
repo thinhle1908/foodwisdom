@@ -24,6 +24,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('dashboard');
     })->name('dashboard')->middleware(['auth','isAdmin']);
 //Order
+//Edit Order
+Route::get('/edit-order/{id}', [OrdersController::class, 'edit']);
+Route::post('/edit-order/{id}', [OrdersController::class, 'update']);
 //Delete-Order
 Route::get('/delete-order/{id}', [OrdersController::class, 'destroy']);
 //View Order

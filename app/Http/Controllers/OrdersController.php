@@ -63,7 +63,8 @@ class OrdersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $order = Order::find($id);
+        return view('adminEditOrder')->with('order',$order);
     }
 
     /**
@@ -75,7 +76,14 @@ class OrdersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        request()->validate([
+            'order_status' => 'required|numeric|between:1,4',
+        ]);
+        $order = Order::find($id);
+        $order->update([
+            'order_status' =>$request->order_status
+        ]);
+        return redirect('/dashboard/orders');
     }
 
     /**

@@ -54,6 +54,8 @@
                                                 data-bs-toggle="dropdown">
                                             </button>
                                             <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{ asset('edit-order/'.$order->order_id) }}"><i
+                                                    class="bx bx-edit-alt me-1"></i> Edit</a>
                                                 <a class="dropdown-item" href="{{ asset('delete-order/'.$order->order_id) }}"><i
                                                         class="bx bx-trash me-1"></i> Delete</a>
                                             </div>
