@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use PetstoreIO\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +25,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard')->middleware(['auth','isAdmin']);
+//User
+//Delete-User
+Route::get('/delete-user/{id}', [UsersController::class, 'destroy'])->middleware(['auth','isAdmin']);
+//View User
+Route::get('/dashboard/users', [UsersController::class, 'adminindex'])->middleware(['auth','isAdmin']);
 //Order
 //Edit Order
 Route::get('/edit-order/{id}', [OrdersController::class, 'edit'])->middleware(['auth','isAdmin']);

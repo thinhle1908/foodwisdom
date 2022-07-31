@@ -178,7 +178,7 @@
           <li class="menu-header small text-uppercase"><span class="menu-header-text">View User</span></li>
           <li class="menu-item">
             <a
-              href="{{ asset('dashboard/view-user') }}"
+              href="{{ asset('dashboard/users') }}"
               class="menu-link"
             >
             <i class="fa-solid fa-cube" style="margin-right:10%"></i>
