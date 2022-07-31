@@ -25,22 +25,22 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     })->name('dashboard')->middleware(['auth','isAdmin']);
 //Order
 //Edit Order
-Route::get('/edit-order/{id}', [OrdersController::class, 'edit']);
-Route::post('/edit-order/{id}', [OrdersController::class, 'update']);
+Route::get('/edit-order/{id}', [OrdersController::class, 'edit'])->middleware(['auth','isAdmin']);
+Route::post('/edit-order/{id}', [OrdersController::class, 'update'])->middleware(['auth','isAdmin']);
 //Delete-Order
-Route::get('/delete-order/{id}', [OrdersController::class, 'destroy']);
+Route::get('/delete-order/{id}', [OrdersController::class, 'destroy'])->middleware(['auth','isAdmin']);
 //View Order
-Route::get('/dashboard/orders', [OrdersController::class, 'adminindex']);;
+Route::get('/dashboard/orders', [OrdersController::class, 'adminindex'])->middleware(['auth','isAdmin']);
 //Product
 //Delete Product
-Route::get('/delete-product/{id}', [ProductsController::class, 'destroy']);
+Route::get('/delete-product/{id}', [ProductsController::class, 'destroy'])->middleware(['auth','isAdmin']);
 //Edit Product 
-Route::get('/edit-product/{id}', [ProductsController::class, 'edit']);
-Route::post('/edit-product/{id}', [ProductsController::class, 'update']);
+Route::get('/edit-product/{id}', [ProductsController::class, 'edit'])->middleware(['auth','isAdmin']);
+Route::post('/edit-product/{id}', [ProductsController::class, 'update'])->middleware(['auth','isAdmin']);
 //Add Product
-Route::get('/dashboard/add-product', [ProductsController::class, 'create']);
-Route::post('/dashboard/add-product', [ProductsController::class, 'store']);
+Route::get('/dashboard/add-product', [ProductsController::class, 'create'])->middleware(['auth','isAdmin']);
+Route::post('/dashboard/add-product', [ProductsController::class, 'store'])->middleware(['auth','isAdmin']);
 //View Product
-Route::get('/dashboard/product', [ProductsController::class, 'adminindex']);
+Route::get('/dashboard/product', [ProductsController::class, 'adminindex'])->middleware(['auth','isAdmin']);
 });
 
