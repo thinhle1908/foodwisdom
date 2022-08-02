@@ -109,6 +109,8 @@
 								</ul>
 								<h1>{{$product->price}}$</h1>
 								<p>{{$product->description}}</p>
+								<a href="" class="btn btn-primary">Add To Cart</a>
+								<a href="" class="btn btn-danger">Add To Wishlist</a>
 							</div>
 						</div>
 						<div class="blog-comment-box">

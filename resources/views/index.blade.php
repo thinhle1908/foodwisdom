@@ -177,9 +177,9 @@
                     <div class="heading-title text-center">
                         <h2>Special Menu</h2>
                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
-                        <form action="{{ asset('/search') }}" class="form-inline" >
+                        <form action="{{ asset('/search') }}" class="form-inline">
                             <div class="blog-search-form" style="width:100%">
-                                <input name="search" placeholder="Search product" type="text" >
+                                <input name="search" placeholder="Search product" type="text">
                                 <button class="search-btn">
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                 </button>
@@ -203,19 +203,20 @@
 
             <div class="row special-list">
                 @foreach ($products as $product)
-                    <a href="{{ URL::to('/product-details/' . $product->id) }}">
-                        <div class="col-lg-4 col-md-6 special-grid drinks">
+                    <div class="col-lg-4 col-md-6 special-grid drinks">
+                        <a href="{{ URL::to('/product-details/' . $product->id) }}">
                             <div class="gallery-single fix">
                                 <img src="images/{{ $product->image }}" class="" alt="Image" width="500px"
                                     height="250px">
+
                                 <div class="why-text">
                                     <h4>{{ $product->product_name }}</h4>
                                     <p>{{ substr($product->description, 0, 50) }}...</p>
                                     <h5>{{ $product->price }}$</h5>
                                 </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 @endforeach
 
             </div>
