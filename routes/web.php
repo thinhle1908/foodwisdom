@@ -18,10 +18,11 @@ use PetstoreIO\UserController;
 |
 */
 
-Route::get('/', [ProductsController::class, 'index']);
+Route::get('/', [ProductsController::class, 'index'])->name('index');
 Route::get('/product-details/{id}', [ProductsController::class, 'getProductByID']);
 Route::get('/search', [ProductsController::class, 'search']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard')->middleware(['auth','isAdmin']);
@@ -49,5 +50,17 @@ Route::get('/dashboard/add-product', [ProductsController::class, 'create'])->mid
 Route::post('/dashboard/add-product', [ProductsController::class, 'store'])->middleware(['auth','isAdmin']);
 //View Product
 Route::get('/dashboard/product', [ProductsController::class, 'adminindex'])->middleware(['auth','isAdmin']);
+Route::get('/home',function(){
+    if(Auth::check()){
+        if(Auth::user()->role=='1'){
+            return redirect('/dashboard');
+
+        }
+        else {
+            return redirect('/');
+        }
+    }
+})->middleware('auth');
+
 });
 

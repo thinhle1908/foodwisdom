@@ -70,6 +70,10 @@
                             </div>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                        @if(isset($user_name))
+                        {{Auth::user()->name}}
+                        @endif
+                        <li></li>
                     </ul>
                 </div>
             </div>
