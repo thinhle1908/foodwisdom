@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\File;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
 {
@@ -115,7 +116,7 @@ class ProductsController extends Controller
             'image' => $nameimg,
             'qty' => request('qty'),
             'description' => request('description'),
-            'visible'=>request('visible')
+            'visible' => request('visible')
         ]);
         //delete old category
         $id_product = $product->id;

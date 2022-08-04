@@ -70,10 +70,22 @@
                             </div>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                        @if(isset($user_name))
-                        {{Auth::user()->name}}
+                        @if(isset(auth('sanctum')->user()->name))
+                        <li class=" nav-link">Welcome {{auth('sanctum')->user()->name}}</li>
+                            <li class=" nav-item">
+                                <form class="nav-link" method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <x-responsive-nav-link :href="route('logout')"
+                                        onclick="event.preventDefault();
+                                                        this.closest('form').submit();">
+                                        {{ __('Log Out') }}
+                                    </x-responsive-nav-link>
+                                </form>
+                            </li>
+                        @else
+                        <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
                         @endif
-                        <li></li>
+                        
                     </ul>
                 </div>
             </div>
