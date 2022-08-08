@@ -54,4 +54,5 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/dashboard/product', [ProductsController::class, 'adminindex'])->middleware(['auth', 'isAdmin']);
     Route::get('/home', [HomeController::class, 'checkUserType'])->middleware(['auth']);
     Route::get('/user/profile', [UserProfileController::class, 'profile'])->middleware(['auth']);
+    Route::post('/user/profile', [UserProfileController::class, 'update'])->middleware(['auth']);
 });

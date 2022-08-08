@@ -1,64 +1,11 @@
 <x-layout>
-	@section('scripts')
-	  <!-- Favicon -->
-	  <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
-	  <!--Muti Categories -->
-	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css">
-	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-	  <!-- Fonts -->
-	  <link rel="preconnect" href="https://fonts.googleapis.com" />
-	  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	  <link
-		href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-		rel="stylesheet"
-	  />
-  
-	  <!-- Icons. Uncomment required icon fonts -->
-	  <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
-  
-	  <!-- Core CSS -->
-	  <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
-	  <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-	  <link rel="stylesheet" href="../assets/css/demo.css" />
-  
-	  <!-- Vendors CSS -->
-	  <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-  
-	  <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
-  
-	  <!-- Page CSS -->
-  
-	  <!-- Helpers -->
-	  <script src="../assets/vendor/js/helpers.js"></script>
-  
-	  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-	  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-	  <script src="../assets/js/config.js"></script>
-	  <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="../assets/vendor/libs/popper/popper.js"></script>
-    <script src="../assets/vendor/js/bootstrap.js"></script>
-    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
-    <script src="../assets/vendor/js/menu.js"></script>
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-    <script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
-
-    <!-- Main JS -->
-    <script src="{{ asset('../assets/js/main.js') }}"></script>
-
-    <!-- Page JS -->
-    <script src="{{ asset('../assets/js/dashboards-analytics.js') }}"></script>
-    <script src="{{ asset('assets/js/pages-account-settings-account.js') }}"></script>
-    <!-- Categories Script -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-	@endsection
+    @section('scripts')
+        <!-- Page JS -->
+        <script src="{{ asset('../assets/js/dashboards-analytics.js') }}"></script>
+        <script src="{{ asset('assets/js/pages-account-settings-account.js') }}"></script>
+        <!-- Place this tag in your head or just before your close body tag. -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+    @endsection
     @section('content')
         <!-- Start All Pages -->
         <div class="all-page-title page-breadcrumb">
@@ -86,12 +33,18 @@
                 <div class="row">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="contact-block">
-                            <form id="formAccountSettings" method="POST" action="profile/update-profile"
+                            <form id="formAccountSettings" method="POST" action="profile"
                                 enctype="multipart/form-data">
-                                <div class="col-md-12">
-									<div class="col-md-12 d-flex align-items-start align-items-sm-center gap-4">
-                                        <img src={{asset('assets/img/avatars/1.png')}} class="d-block rounded"
+                                @csrf
+                                <div class="col-md-12 mr-5">
+                                    <div class="col-md-12 d-flex align-items-start align-items-sm-center gap-4">
+                                        @if($user->profile->image)
+                                        <img src={{ asset('images/user-profile').'/'.$user->profile->image }} class="d-block rounded"
                                             height="100" width="100" id="uploadedAvatar" />
+                                        @else
+                                        <img src={{ asset('assets/img/avatars/1.png') }} class="d-block rounded"
+                                            height="100" width="100" id="uploadedAvatar" />
+                                        @endif
                                         <div class="button-wrapper">
                                             <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                                                 <span class="d-none d-sm-block">Upload new photo</span>
@@ -113,79 +66,77 @@
                                     <h3>Name:</h3>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                placeholder="Your Name" required data-error="Please enter your name">
+                                            <input type="text" class="form-control"  id="name" name="name"
+                                                placeholder="Your Name"  data-error="Please enter your name" required
+                                                value="{{ $user->name }}"> 
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <h3>Email</h3>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <input type="text" placeholder="Your Email" id="email"
-                                                class="form-control" name="email" required
-                                                data-error="Please enter your email">
-                                            <div class="help-block with-errors"></div>
+                                            <div id="email" class="form-control">{{ $user->email}} </div>
                                         </div>
                                     </div>
                                     <h3>Phone:</h3>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <input type="text" placeholder="Your Numbar" id="phone"
-                                                class="form-control" name="phone" required
+                                                class="form-control" name="phone" value="{{ $user->profile->mobile }}"
                                                 data-error="Please enter your Numbar">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
-									<h3>Line1:</h3>
+                                    <h3>Line1:</h3>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <input type="text" placeholder="Your Numbar" id="phone"
-                                                class="form-control" name="phone" required
+                                                class="form-control" name="line1" value="{{ $user->profile->line1 }}"
                                                 data-error="Please enter your Numbar">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
-									<h3>Line2:</h3>
+                                    <h3>Line2:</h3>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <input type="text" placeholder="Your Numbar" id="phone"
-                                                class="form-control" name="phone" required
+                                                class="form-control" name="line2" value="{{ $user->profile->line2 }}"
                                                 data-error="Please enter your Numbar">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
-									<h3>City:</h3>
+                                    <h3>City:</h3>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <input type="text" placeholder="Your Numbar" id="phone"
-                                                class="form-control" name="phone" required
+                                                class="form-control" name="city" value="{{ $user->profile->city }}"
                                                 data-error="Please enter your Numbar">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
-									<h3>Province:</h3>
+                                    <h3>Province:</h3>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <input type="text" placeholder="Your Numbar" id="phone"
-                                                class="form-control" name="phone" required
+                                                class="form-control" name="province" value="{{ $user->profile->province }}"
                                                 data-error="Please enter your Numbar">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
-									<h3>Country:</h3>
+                                    <h3>Country:</h3>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <input type="text" placeholder="Your Numbar" id="phone"
-                                                class="form-control" name="phone" required
+                                            <input type="text" placeholder="Your Numbar" id="phone" value="{{ $user->profile->country }}"
+                                                class="form-control" name="country" 
                                                 data-error="Please enter your Numbar">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
-									<h3>Zip Code:</h3>
+                                    <h3>Zip Code:</h3>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <input type="text" placeholder="Your Numbar" id="phone"
-                                                class="form-control" name="phone" required
+                                                class="form-control" name="zipcode" value="{{ $user->profile->zipcode }}"
                                                 data-error="Please enter your Numbar">
                                             <div class="help-block with-errors"></div>
                                         </div>
@@ -224,10 +175,11 @@
                             <div class="carousel-inner mt-4">
                                 <div class="carousel-item text-center active">
                                     <div class="img-box p-1 border rounded-circle m-auto">
-                                        <img class="d-block w-100 rounded-circle" src="{{ asset('images/profile-1.jpg') }}"
-                                            alt="">
+                                        <img class="d-block w-100 rounded-circle"
+                                        src="{{ asset('images/profile-1.jpg') }}" alt="">
                                     </div>
-                                    <h5 class="mt-4 mb-0"><strong class="text-warning text-uppercase">Paul Mitchel</strong>
+                                    <h5 class="mt-4 mb-0"><strong class="text-warning text-uppercase">Paul
+                                            Mitchel</strong>
                                     </h5>
                                     <h6 class="text-dark m-0">Web Developer</h6>
                                     <p class="m-0 pt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu sem
@@ -237,8 +189,8 @@
                                 </div>
                                 <div class="carousel-item text-center">
                                     <div class="img-box p-1 border rounded-circle m-auto">
-                                        <img class="d-block w-100 rounded-circle" src="{{ asset('images/profile-3.jpg') }}"
-                                            alt="">
+                                        <img class="d-block w-100 rounded-circle"
+                                            src="{{ asset('images/profile-3.jpg') }}" alt="">
                                     </div>
                                     <h5 class="mt-4 mb-0"><strong class="text-warning text-uppercase">Steve Fonsi</strong>
                                     </h5>
@@ -250,10 +202,11 @@
                                 </div>
                                 <div class="carousel-item text-center">
                                     <div class="img-box p-1 border rounded-circle m-auto">
-                                        <img class="d-block w-100 rounded-circle" src="{{ asset('images/profile-7.jpg') }}"
-                                            alt="">
+                                        <img class="d-block w-100 rounded-circle"
+                                            src="{{ asset('images/profile-7.jpg') }}" alt="">
                                     </div>
-                                    <h5 class="mt-4 mb-0"><strong class="text-warning text-uppercase">Daniel vebar</strong>
+                                    <h5 class="mt-4 mb-0"><strong class="text-warning text-uppercase">Daniel
+                                            vebar</strong>
                                     </h5>
                                     <h6 class="text-dark m-0">Seo Analyst</h6>
                                     <p class="m-0 pt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu sem
