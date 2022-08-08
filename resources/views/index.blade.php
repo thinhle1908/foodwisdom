@@ -69,9 +69,8 @@
                                 <a class="dropdown-item" href="blog-details.html">blog Single</a>
                             </div>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                        @if(isset(auth('sanctum')->user()->name))
-                        <li class=" nav-link">Welcome {{auth('sanctum')->user()->name}}</li>
+                        @if (isset(auth('sanctum')->user()->name))
+                            <li class=" nav-link">Welcome {{ auth('sanctum')->user()->name }}</li>
                             <li class=" nav-item">
                                 <form class="nav-link" method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -82,10 +81,11 @@
                                     </x-responsive-nav-link>
                                 </form>
                             </li>
+                            <li class="nav-item"><a class="nav-link" href="user/profile">Profile</a></li>
                         @else
-                        <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
                         @endif
-                        
+
                     </ul>
                 </div>
             </div>
@@ -104,7 +104,8 @@
                             <h1 class="m-b-20"><strong>Welcome To <br> Yamifood Restaurant</strong></h1>
                             <p class="m-b-40">See how your users experience your website in realtime or view <br>
                                 trends to see any changes in performance over time.</p>
-                            <p><a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Reservation</a></p>
+                            <p><a class="btn btn-lg btn-circle btn-outline-new-white" href="#">Reservation</a>
+                            </p>
                         </div>
                     </div>
                 </div>

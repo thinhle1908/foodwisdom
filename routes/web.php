@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -52,4 +53,5 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     //View Product
     Route::get('/dashboard/product', [ProductsController::class, 'adminindex'])->middleware(['auth', 'isAdmin']);
     Route::get('/home', [HomeController::class, 'checkUserType'])->middleware(['auth']);
+    Route::get('/user/profile', [UserProfileController::class, 'profile'])->middleware(['auth']);
 });
