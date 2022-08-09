@@ -40,7 +40,7 @@
     <header class="top-navbar">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="/">
                     <img src="{{asset('images/logo.png')}}" alt="" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-rs-food"
@@ -49,7 +49,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbars-rs-food">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="menu.html">Menu</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                         <li class="nav-item dropdown">
@@ -81,7 +81,7 @@
                                     </x-responsive-nav-link>
                                 </form>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="user/profile">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/user/profile">Profile</a></li>
                         @else
                             <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
                         @endif
