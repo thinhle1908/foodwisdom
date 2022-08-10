@@ -56,3 +56,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/user/profile', [UserProfileController::class, 'profile'])->middleware(['auth']);
     Route::post('/user/profile', [UserProfileController::class, 'update'])->middleware(['auth']);
 });
+Route::get('/cart', function () {
+    return view('cart');
+});

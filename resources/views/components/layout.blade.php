@@ -27,6 +27,9 @@
     <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{asset('css/custom.css')}}">
+     <!--Font Awesome -->
+    <link rel="stylesheet" href="../css/all.css">
+    <link rel="stylesheet" href="../css/all.min.css">
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -61,14 +64,7 @@
                                 <a class="dropdown-item" href="gallery.html">Gallery</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdown-a"
-                                data-toggle="dropdown">Blog</a>
-                            <div class="dropdown-menu" aria-labelledby="dropdown-a">
-                                <a class="dropdown-item" href="blog.html">blog</a>
-                                <a class="dropdown-item" href="blog-details.html">blog Single</a>
-                            </div>
-                        </li>
+                       
                         @if (isset(auth('sanctum')->user()->name))
                             <li class=" nav-link">Welcome {{ auth('sanctum')->user()->name }}</li>
                             <li class=" nav-item">
@@ -85,7 +81,7 @@
                         @else
                             <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
                         @endif
-
+                        <li class="nav-item"><a class="nav-link" href="/cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
                     </ul>
                 </div>
             </div>
