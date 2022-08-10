@@ -109,7 +109,15 @@
 								</ul>
 								<h1>{{$product->price}}$</h1>
 								<p>{{$product->description}}</p>
-								<a href="" class="btn btn-primary">Add To Cart</a>
+								<form action="{{ route('cart.store') }}" method="POST" enctype="multipart/form-data">
+									@csrf
+									<input type="hidden" value="{{ $product->id }}" name="id">
+									<input type="hidden" value="{{ $product->product_name }}" name="name">
+									<input type="hidden" value="{{ $product->price }}" name="price">
+									<input type="hidden" value="{{ $product->image }}"  name="image">
+									<input type="hidden" value="1" name="quantity">
+									<button class="btn btn-primary">Add To Cart</button>
+								</form>
 								<a href="" class="btn btn-danger">Add To Wishlist</a>
 							</div>
 						</div>

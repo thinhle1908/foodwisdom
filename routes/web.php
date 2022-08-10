@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
@@ -56,6 +57,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/user/profile', [UserProfileController::class, 'profile'])->middleware(['auth']);
     Route::post('/user/profile', [UserProfileController::class, 'update'])->middleware(['auth']);
 });
-Route::get('/cart', function () {
-    return view('cart');
-});
+Route::get('cart', [CartController::class, 'cartList'])->name('cart.list');
+Route::post('cart', [CartController::class, 'addToCart'])->name('cart.store');
+Route::post('cart-remove', [CartController::class, 'removeCart'])->name('cart.remove');
+Route::post('cart-update', [CartController::class, 'updateCart'])->name('cart.update');
+

@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => '14e2f307f37c00ae1de65e3013d7db03c6944940',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -50,6 +50,15 @@
             'install_path' => __DIR__ . '/../darkaonline/l5-swagger',
             'aliases' => array(),
             'reference' => '9b900e353503237ed983cae17277ff12fc1aaaf9',
+            'dev_requirement' => false,
+        ),
+        'darryldecode/cart' => array(
+            'pretty_version' => '4.2.2',
+            'version' => '4.2.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../darryldecode/cart',
+            'aliases' => array(),
+            'reference' => 'bc5ff0e1c7d20d621fa63b3218532f2ae7cbf841',
             'dev_requirement' => false,
         ),
         'dasprid/enum' => array(
@@ -467,12 +476,12 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => '14e2f307f37c00ae1de65e3013d7db03c6944940',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
