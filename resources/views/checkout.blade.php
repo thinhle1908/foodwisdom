@@ -27,18 +27,18 @@
                     <div class="col-md-4 order-md-2 mb-4">
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
                             <span class="text-muted">Your cart</span>
-                            <span class="badge badge-secondary badge-pill">{{Cart::getContent()->count() }}</span>
+                            <span class="badge badge-secondary badge-pill">{{ Cart::getContent()->count() }}</span>
                         </h4>
                         <ul class="list-group mb-3">
                             @foreach ($cartItems as $item)
-                            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                <div>
-                                    <h6 class="my-0">{{$item->name}}</h6>
-                                    <small class="text-muted">Quantity:{{$item->quantity}}</small>
-                                </div>
-                                <span class="text-muted">${{ $item->price}}</span>
-                                
-                            </li>
+                                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                    <div>
+                                        <h6 class="my-0">{{ $item->name }}</h6>
+                                        <small class="text-muted">Quantity:{{ $item->quantity }}</small>
+                                    </div>
+                                    <span class="text-muted">${{ $item->price }}</span>
+
+                                </li>
                             @endforeach
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Total (USD)</span>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-md-8 order-md-1">
                         <h4 class="mb-3">Billing address</h4>
-                        <form class="needs-validation" method="POST" action="{{ route('checkout.payment') }}" >
+                        <form class="needs-validation" method="POST" action="{{ route('checkout.payment') }}">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12 mb-3">
@@ -156,56 +156,11 @@
                                     <label class="custom-control-label" for="paypal">PayPal</label>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="cc-name">Name on card</label>
-                                    <input type="text" class="form-control" id="cc-name" placeholder="Name on your card" name="card_name" required>
-                                    <small class="text-muted">Full name as displayed on card</small>
-                                    <div class="invalid-feedback">
-                                        Name on card is required
-                                    </div>
-                                    @error('card_name')<span class="text-danger">{{$message}}</span>@enderror
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="cc-number">Credit card number</label>
-                                    <input type="text" class="form-control" id="cc-number" placeholder="•••• •••• •••• ••••" required name="number_card">
-                                    <div class="invalid-feedback">
-                                        Credit card number is required
-                                    </div>
-                                    @error('number_card')<span class="text-danger">{{$message}}</span>@enderror
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 mb-3">
-                                    <label for="cc-expiration-moth">Expiration Month</label>
-                                    <input type="text" class="form-control" id="cc-expiration-moth" placeholder="MM" name="ex_month"
-                                        required>
-                                    <div class="invalid-feedback">
-                                        Expiration date required
-                                    </div>
-                                    @error('ex_month')<span class="text-danger">{{$message}}</span>@enderror
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="cc-expiration-year">Expiration Year</label>
-                                    <input type="text" class="form-control" id="cc-expiration-year" placeholder="YYYY" name="ex_year"
-                                        required>
-                                    <div class="invalid-feedback">
-                                        Expiration date required
-                                    </div>
-                                    @error('ex_year')<span class="text-danger">{{$message}}</span>@enderror
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="cc-cvv">CVV</label>
-                                    <input type="password" class="form-control" id="cc-cvv" placeholder="123" required name="cvv">
-                                    <div class="invalid-feedback">
-                                        Security code required
-                                    </div>
-                                    @error('cvv')<span class="text-danger">{{$message}}</span>@enderror
-                                </div>
-                            </div>
                             <hr class="mb-4">
-                            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                            {{-- <button id="checkout-button" class="btn btn-primary btn-lg btn-block" type="submit">Continue
+                                to checkout</button> --}}
                         </form>
+                        <button id="checkout-button" type="button" class="btn btn-primary btn-lg">Proceed To Checkout</button>
                     </div>
                 </div>
 
@@ -219,5 +174,16 @@
                 </footer>
             </div>
         </section>
+        <script src="https://js.stripe.com/v3/"></script>
+        <script>
+            var stripe = Stripe('pk_test_51LNA6mE1yxdaPwWf3fVbsQnWgTWcZtfe9BUfrIwkKASnkzROoDyuKiiT2ZBus5rggwUTBtksRYmGFkjMJQBs1KBA003p0SENrX');
+            const btn = document.getElementById("checkout-button");
+            btn.addEventListener('click', function(e){
+                e.preventDefault();
+                stripe.redirectToCheckout({
+                    sessionId: "<?php echo $session->id; ?>"
+                })
+            })
+        </script>
     @endsection
 </x-layout>

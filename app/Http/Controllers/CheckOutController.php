@@ -15,10 +15,34 @@ class CheckOutController extends Controller
      */
     public function index()
     {
+       
+        \Stripe\Stripe::setApiKey('sk_test_51LNA6mE1yxdaPwWfP4ShSrXnASCdZF6WP8f8ikiAMdWcRnOaiAiPyKFhV0QGs4XvE4gKtqHM9osEDs7S6mkUi9jl00IQ1OPeqD');
         $cartItems = \Cart::getContent();
-        // dd($cartItems);
         $user = User::find(Auth::user()->id);
-        return view('checkout', compact('cartItems'))->with('user', $user);
+        // dd($cartItems);
+        $line_item = [];
+        foreach ($cartItems as $item) {
+            $line_item[] = [
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => [
+                        'name' => $item->name,
+                    ],
+                    'unit_amount' => $item->price,
+                ],
+                'quantity' => $item->quantity,
+            ];
+        }
+
+        $session = \Stripe\Checkout\Session::create([
+            'line_items' => $line_item,
+
+            'mode' => 'payment',
+            'success_url' => 'https://example.com/success',
+            'cancel_url' => 'https://example.com/cancel',
+        ]);
+
+        return view('checkout', compact('cartItems'))->with('user', $user)->with('session',$session);
     }
 
     /**
@@ -83,6 +107,10 @@ class CheckOutController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
+    {
+        //
+    }
+    public function payment(Request $request)
     {
         //
     }

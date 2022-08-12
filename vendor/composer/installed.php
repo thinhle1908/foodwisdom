@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '14e2f307f37c00ae1de65e3013d7db03c6944940',
+        'reference' => '894038c3bc789c388e8518746280658168235bf2',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -481,7 +481,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '14e2f307f37c00ae1de65e3013d7db03c6944940',
+            'reference' => '894038c3bc789c388e8518746280658168235bf2',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
@@ -1069,6 +1069,15 @@
             'aliases' => array(),
             'reference' => 'c6c1022351a901512170118436c764e473f6de8c',
             'dev_requirement' => true,
+        ),
+        'stripe/stripe-php' => array(
+            'pretty_version' => 'v9.1.0',
+            'version' => '9.1.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../stripe/stripe-php',
+            'aliases' => array(),
+            'reference' => '5dd4a247b56e5006ffe877e3749eb800d936dd19',
+            'dev_requirement' => false,
         ),
         'swagger-api/swagger-ui' => array(
             'pretty_version' => 'v3.52.5',
