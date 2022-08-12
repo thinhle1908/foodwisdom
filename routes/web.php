@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
@@ -19,13 +20,14 @@ use PetstoreIO\UserController;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/ 
+*/
+
 Route::get('/', [ProductsController::class, 'index'])->name('index')->middleware();
 
 Route::get('/product-details/{id}', [ProductsController::class, 'getProductByID']);
 Route::get('/search', [ProductsController::class, 'search']);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    
+
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard')->middleware(['auth', 'isAdmin']);
@@ -56,9 +58,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/home', [HomeController::class, 'checkUserType'])->middleware(['auth']);
     Route::get('/user/profile', [UserProfileController::class, 'profile'])->middleware(['auth']);
     Route::post('/user/profile', [UserProfileController::class, 'update'])->middleware(['auth']);
+    Route::get('cart', [CartController::class, 'cartList'])->name('cart.list');
+    Route::post('cart', [CartController::class, 'addToCart'])->name('cart.store');
+    Route::post('cart-remove', [CartController::class, 'removeCart'])->name('cart.remove');
+    Route::post('cart-update', [CartController::class, 'updateCart'])->name('cart.update');
+    Route::get('/checkout', [CheckOutController::class, 'index'])->middleware(['auth'])->name('checkout.index');
+    Route::post('/checkout', [CheckOutController::class, 'payment'])->name('checkout.payment')->middleware(['auth']);
 });
-Route::get('cart', [CartController::class, 'cartList'])->name('cart.list');
-Route::post('cart', [CartController::class, 'addToCart'])->name('cart.store');
-Route::post('cart-remove', [CartController::class, 'removeCart'])->name('cart.remove');
-Route::post('cart-update', [CartController::class, 'updateCart'])->name('cart.update');
-
