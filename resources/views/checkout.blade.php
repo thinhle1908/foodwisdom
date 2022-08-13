@@ -157,10 +157,11 @@
                                 </div>
                             </div>
                             <hr class="mb-4">
+                            <button id="checkout-button" type="button" class="btn btn-primary btn-lg">Proceed To Checkout</button>
                             {{-- <button id="checkout-button" class="btn btn-primary btn-lg btn-block" type="submit">Continue
                                 to checkout</button> --}}
                         </form>
-                        <button id="checkout-button" type="button" class="btn btn-primary btn-lg">Proceed To Checkout</button>
+                       
                     </div>
                 </div>
 
