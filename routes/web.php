@@ -5,13 +5,14 @@ use App\Http\Controllers\CheckOutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UsersController;
-use App\Models\Payment;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use PetstoreIO\UserController;
+use Stripe\Stripe;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,24 +65,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::post('cart', [CartController::class, 'addToCart'])->name('cart.store');
     Route::post('cart-remove', [CartController::class, 'removeCart'])->name('cart.remove');
     Route::post('cart-update', [CartController::class, 'updateCart'])->name('cart.update');
+    Route::post('clear', [CartController::class, 'clearAllCart'])->name('cart.clear');
     Route::get('/checkout', [CheckOutController::class, 'index'])->middleware(['auth'])->name('checkout.index');
     Route::post('/checkout', [CheckOutController::class, 'payment'])->name('checkout.payment')->middleware(['auth']);
  
 });
-Route::post('webhook', function (Request $request) {
-    if ($request->type === 'charge.succeeded') {
-
-
-        try {
-            Payment::create([
-                'stripe_id' => $request->data['object']['id'],
-                'amount' => $request->data['object']['amount'],
-                'email' => $request->data['object']['billing_details']['email'],
-                'name' => $request->data['object']['billing_details']['name'],
-            ]);
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-});
+Route::post('webhook', [StripeController::class, 'webhook']);
 
