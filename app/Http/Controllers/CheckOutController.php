@@ -88,6 +88,17 @@ class CheckOutController extends Controller
     }
     public function payment(Request $request)
     {
+        request()->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|alpha_num',
+            'line1' => 'required|string',
+            'line2' => 'required|string',
+            'city' => 'required|string',
+            'province' => 'required|string',
+            'country' => 'required|string',
+            'zipcode' => 'required|alpha_num',
+        ]);
         \Stripe\Stripe::setApiKey('sk_test_51LNA6mE1yxdaPwWfP4ShSrXnASCdZF6WP8f8ikiAMdWcRnOaiAiPyKFhV0QGs4XvE4gKtqHM9osEDs7S6mkUi9jl00IQ1OPeqD');
 
         $cartItems = \Cart::getContent();
@@ -104,12 +115,25 @@ class CheckOutController extends Controller
                 'quantity' => $item->quantity,
             ];
         }
+        $user_info = array("line1" =>$request->line1 ,"line2" => $request->line2, "city" => $request->city, "state" => $request->province, "postal_code" => $request->zipcode,"country"=>$request->country);
+        $customer = \Stripe\Customer::create(array(
+            'name'    => $request->name,
+            'email'    => $request->email,
+            'phone' => $request->phone,
+            'address' => $user_info,    
+            // 'address_line2' =>$request->line2,
+            // 'city' => $request->city,
+            // 'province' => $request->province,
+            // 'country' => $request->country,
+            // 'zipcode' => $request->zipcode,
+        ));
         $session = \Stripe\Checkout\Session::create([
             'line_items' => $line_item,
 
             'mode' => 'payment',
             'success_url' => 'https://example.com/success',
             'cancel_url' => 'https://example.com/cancel',
+            'customer'=>$customer,
         ]);
 
         return redirect($session->url);

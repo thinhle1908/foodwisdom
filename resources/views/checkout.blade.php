@@ -62,7 +62,7 @@
                             <div class="row">
                                 <div class="col-md-12 mb-3">
                                     <label for="firstName">Name</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder=""
+                                    <input type="text" class="form-control" id="firstName" placeholder="" name="name"
                                         value="{{ $user->name }}" required>
                                     <div class="invalid-feedback">
                                         Valid first name is required.
@@ -71,7 +71,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="email">Email <span class="text-muted">(Optional)</span></label>
-                                <input type="email" class="form-control" id="email" placeholder="you@example.com"
+                                <input type="email" class="form-control" id="email" placeholder="you@example.com" name="email"
                                     value="{{ $user->email }}">
                                 <div class="invalid-feedback">
                                     Please enter a valid email address for shipping updates.
@@ -80,7 +80,7 @@
 
                             <div class="mb-3">
                                 <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address" placeholder="1234 Main St"
+                                <input type="text" class="form-control" id="address" placeholder="1234 Main St" name="line1"
                                     value="{{ $user->profile->line1 }}" required>
                                 <div class="invalid-feedback">
                                     Please enter your shipping address.
@@ -89,19 +89,24 @@
 
                             <div class="mb-3">
                                 <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite"
+                                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite" name="line2"
                                     value="{{ $user->profile->line2 }}">
                             </div>
                             <div class="mb-3">
                                 <label for="phone">Phone <span class="text-muted">(Optional)</span></label>
-                                <input type="text" class="form-control" id="phone" placeholder="phone number"
+                                <input type="text" class="form-control" id="phone" placeholder="phone number" name="phone"
                                     value="{{ $user->profile->mobile }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone">City <span class="text-muted">(Optional)</span></label>
+                                <input type="text" class="form-control" id="phone" placeholder="phone number" name="city"
+                                    value="{{ $user->profile->city }}">
                             </div>
 
                             <div class="row">
                                 <div class="col-md-5 mb-3">
                                     <label for="zip">Country</label>
-                                    <input type="text" class="form-control" id="zip" placeholder="" required
+                                    <input type="text" class="form-control" id="zip" placeholder="" required name="country"
                                         value="{{ $user->profile->country }}">
                                     <div class="invalid-feedback">
                                         Zip code required.
@@ -109,7 +114,7 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="zip">Province</label>
-                                    <input type="text" class="form-control" id="zip" placeholder="" required
+                                    <input type="text" class="form-control" id="zip" placeholder="" required name="province"
                                         value="{{ $user->profile->province }}">
                                     <div class="invalid-feedback">
                                         Zip code required.
@@ -117,7 +122,7 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="zip">Zip</label>
-                                    <input type="text" class="form-control" id="zip" placeholder="" required
+                                    <input type="text" class="form-control" id="zip" placeholder="" required name="zipcode"
                                         value="{{ $user->profile->zipcode }}">
                                     <div class="invalid-feedback">
                                         Zip code required.
