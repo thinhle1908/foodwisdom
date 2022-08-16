@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 
@@ -87,18 +88,22 @@ class StripeController extends Controller
     {
         if ($request->type === 'charge.succeeded') {
             try {
-                
+                \Stripe\Stripe::setApiKey('sk_test_51LNA6mE1yxdaPwWfP4ShSrXnASCdZF6WP8f8ikiAMdWcRnOaiAiPyKFhV0QGs4XvE4gKtqHM9osEDs7S6mkUi9jl00IQ1OPeqD');
+                $customer = \Stripe\Customer::retrieve(
+                    $request->data['object']['customer'],
+                    []
+                );
                 Payment::create([
                     'stripe_id' => $request->data['object']['id'],
                     'amount' => $request->data['object']['amount'],
                     'email' => $request->data['object']['billing_details']['email'],
-                    'name' => $request->data['object']['billing_details']['name'],
+                    'name' => $customer['name'],
                 ]);
-                
+               
             } catch (\Exception $e) {
                 return $e->getMessage();
             }
         }
     }
-   
+    
 }

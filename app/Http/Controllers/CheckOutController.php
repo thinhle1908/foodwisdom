@@ -115,7 +115,7 @@ class CheckOutController extends Controller
                 'quantity' => $item->quantity,
             ];
         }
-        $user_info = array("line1" =>$request->line1 ,"line2" => $request->line2, "city" => $request->city, "state" => $request->province, "postal_code" => $request->zipcode,"country"=>$request->country);
+        $user_info = array("line1" =>$request->line1 ,"line2" => $request->line2, "city" => $request->city, "state" => $request->province, "postal_code" => $request->zipcode,"country"=>$request->contry);
         $customer = \Stripe\Customer::create(array(
             'name'    => $request->name,
             'email'    => $request->email,
@@ -127,6 +127,10 @@ class CheckOutController extends Controller
             // 'country' => $request->country,
             // 'zipcode' => $request->zipcode,
         ));
+        $customer = \Stripe\Customer::retrieve(
+            'cus_MG2uu4AMBK3L2I',
+            []
+        );
         $session = \Stripe\Checkout\Session::create([
             'line_items' => $line_item,
 
@@ -137,5 +141,14 @@ class CheckOutController extends Controller
         ]);
 
         return redirect($session->url);
+    }
+    public function test()
+    {
+        \Stripe\Stripe::setApiKey('sk_test_51LNA6mE1yxdaPwWfP4ShSrXnASCdZF6WP8f8ikiAMdWcRnOaiAiPyKFhV0QGs4XvE4gKtqHM9osEDs7S6mkUi9jl00IQ1OPeqD');
+        $customer = \Stripe\Customer::retrieve(
+            'cus_MG2uu4AMBK3L2I',
+            []
+        );
+        return view('test')->with('customer',$customer);
     }
 }

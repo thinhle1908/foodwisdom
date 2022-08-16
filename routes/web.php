@@ -72,3 +72,4 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 Route::post('webhook', [StripeController::class, 'webhook']);
 
+
