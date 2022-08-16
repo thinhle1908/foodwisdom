@@ -157,9 +157,9 @@
                                 </div>
                             </div>
                             <hr class="mb-4">
-                            <button id="checkout-button" type="button" class="btn btn-primary btn-lg">Proceed To Checkout</button>
-                            {{-- <button id="checkout-button" class="btn btn-primary btn-lg btn-block" type="submit">Continue
-                                to checkout</button> --}}
+                            {{-- <button id="checkout-button" type="button" class="btn btn-primary btn-lg">Proceed To Checkout</button> --}}
+                            <button id="checkout-button" class="btn btn-primary btn-lg btn-block" type="submit">Continue
+                                to checkout</button>
                         </form>
                        
                     </div>
@@ -175,16 +175,5 @@
                 </footer>
             </div>
         </section>
-        <script src="https://js.stripe.com/v3/"></script>
-        <script>
-            var stripe = Stripe('pk_test_51LNA6mE1yxdaPwWf3fVbsQnWgTWcZtfe9BUfrIwkKASnkzROoDyuKiiT2ZBus5rggwUTBtksRYmGFkjMJQBs1KBA003p0SENrX');
-            const btn = document.getElementById("checkout-button");
-            btn.addEventListener('click', function(e){
-                e.preventDefault();
-                stripe.redirectToCheckout({
-                    sessionId: "<?php echo $session->id; ?>"
-                })
-            })
-        </script>
     @endsection
 </x-layout>
