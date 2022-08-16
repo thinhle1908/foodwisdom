@@ -121,16 +121,13 @@ class CheckOutController extends Controller
             'email'    => $request->email,
             'phone' => $request->phone,
             'address' => $user_info,    
+            "metadata" =>['user_id'=> Auth::user()->id],
             // 'address_line2' =>$request->line2,
             // 'city' => $request->city,
             // 'province' => $request->province,
             // 'country' => $request->country,
             // 'zipcode' => $request->zipcode,
         ));
-        $customer = \Stripe\Customer::retrieve(
-            'cus_MG2uu4AMBK3L2I',
-            []
-        );
         $session = \Stripe\Checkout\Session::create([
             'line_items' => $line_item,
 
@@ -141,14 +138,5 @@ class CheckOutController extends Controller
         ]);
 
         return redirect($session->url);
-    }
-    public function test()
-    {
-        \Stripe\Stripe::setApiKey('sk_test_51LNA6mE1yxdaPwWfP4ShSrXnASCdZF6WP8f8ikiAMdWcRnOaiAiPyKFhV0QGs4XvE4gKtqHM9osEDs7S6mkUi9jl00IQ1OPeqD');
-        $customer = \Stripe\Customer::retrieve(
-            'cus_MG2uu4AMBK3L2I',
-            []
-        );
-        return view('test')->with('customer',$customer);
     }
 }
