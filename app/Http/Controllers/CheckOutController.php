@@ -86,6 +86,12 @@ class CheckOutController extends Controller
     {
         //
     }
+    public function cancel(){
+        
+    }
+    public function success(){
+
+    }
     public function payment(Request $request)
     {
         request()->validate([
@@ -105,23 +111,26 @@ class CheckOutController extends Controller
         $line_item = [];
         foreach ($cartItems as $item) {
             $line_item[] = [
+                'description'=>$item->id,
                 'price_data' => [
                     'currency' => 'usd',
                     'product_data' => [
                         'name' => $item->name,
                     ],
                     'unit_amount' => $item->price,
+                   
                 ],
                 'quantity' => $item->quantity,
+               
             ];
         }
         $user_info = array("line1" =>$request->line1 ,"line2" => $request->line2, "city" => $request->city, "state" => $request->province, "postal_code" => $request->zipcode,"country"=>$request->contry);
         $customer = \Stripe\Customer::create(array(
             'name'    => $request->name,
-            'email'    => $request->email,
-            'phone' => $request->phone,
+            'email'   => $request->email,
+            'phone'   => $request->phone,
             'address' => $user_info,    
-            "metadata" =>['user_id'=> Auth::user()->id],
+            
             // 'address_line2' =>$request->line2,
             // 'city' => $request->city,
             // 'province' => $request->province,
@@ -132,9 +141,10 @@ class CheckOutController extends Controller
             'line_items' => $line_item,
 
             'mode' => 'payment',
-            'success_url' => 'https://example.com/success',
-            'cancel_url' => 'https://example.com/cancel',
+            'success_url' => asset('payment/success'),
+            'cancel_url' => asset('payment/cancel'),
             'customer'=>$customer,
+            "metadata" =>['user_id'=> Auth::user()->id],
         ]);
 
         return redirect($session->url);

@@ -62,14 +62,17 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/user/profile', [UserProfileController::class, 'profile'])->middleware(['auth']);
     Route::post('/user/profile', [UserProfileController::class, 'update'])->middleware(['auth']);
     Route::get('cart', [CartController::class, 'cartList'])->name('cart.list');
-    Route::post('cart', [CartController::class, 'addToCart'])->name('cart.store');
-    Route::post('cart-remove', [CartController::class, 'removeCart'])->name('cart.remove');
-    Route::post('cart-update', [CartController::class, 'updateCart'])->name('cart.update');
-    Route::post('clear', [CartController::class, 'clearAllCart'])->name('cart.clear');
+    Route::post('cart', [CartController::class, 'addToCart'])->name('cart.store')->middleware(['auth']);
+    Route::post('cart-remove', [CartController::class, 'removeCart'])->name('cart.remove')->middleware(['auth']);
+    Route::post('cart-update', [CartController::class, 'updateCart'])->name('cart.update')->middleware(['auth']);
+    Route::post('clear', [CartController::class, 'clearAllCart'])->name('cart.clear')->middleware(['auth']);
     Route::get('/checkout', [CheckOutController::class, 'index'])->middleware(['auth'])->name('checkout.index');
     Route::post('/checkout', [CheckOutController::class, 'payment'])->name('checkout.payment')->middleware(['auth']);
+    Route::get('/payemnt/success', [CheckOutController::class, 'success'])->middleware(['auth'])->name('checkout.success');
+    Route::get('/payemnt/cancel', [CheckOutController::class, 'cancel'])->middleware(['auth'])->name('checkout.cancel');
  
 });
+Route::get('test', [StripeController::class, 'test']);
 Route::post('webhook', [StripeController::class, 'webhook']);
 
 

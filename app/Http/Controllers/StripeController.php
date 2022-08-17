@@ -86,40 +86,81 @@ class StripeController extends Controller
     {
         //
     }
+    public function test(Request $request)
+    {
+        $stripe = new \Stripe\StripeClient(
+            'sk_test_51LNA6mE1yxdaPwWfP4ShSrXnASCdZF6WP8f8ikiAMdWcRnOaiAiPyKFhV0QGs4XvE4gKtqHM9osEDs7S6mkUi9jl00IQ1OPeqD'
+        );
+
+        $customer = $stripe->checkout->sessions->allLineItems("cs_test_a1QdeXYzaSaouuTd17jIrQloMZ6LPPu0kN5K7OUQ0krZ4RYOM8ctsLWIrW");
+
+
+        return view('test')->with('customer', $customer);
+    }
     public function webhook(Request $request)
     {
+        if ($request->type === 'checkout.session.completed') {
+            $stripe = new \Stripe\StripeClient("sk_test_51LNA6mE1yxdaPwWfP4ShSrXnASCdZF6WP8f8ikiAMdWcRnOaiAiPyKFhV0QGs4XvE4gKtqHM9osEDs7S6mkUi9jl00IQ1OPeqD");
+            $line_item = $stripe->checkout->sessions->allLineItems($request->data['object']['id']);
+            $customer = $stripe->customers->retrieve(
+                $request->data['object']['customer'],
+                []
+            );
+            $order = Order::create([
+                'user_id' => $request->data['object']['metadata']['user_id'],
+                'name' => $customer['name'],
+                'address' => $customer['address']['line1'],
+                'phone' => $customer['phone'],
+                'email' => $customer['email'],
+                'note' => 'v',
+                'total' => $request->data['object']['amount_subtotal'],
+                'order_status' => 1,
+            ]);
+            foreach($line_item['data'] as $item)
+            {
+                OrderDetail::create([
+                    'order_id' => $order->order_id,
+                    'product_id' => $item->description,
+                    'qty' => $item->quantity,
+                    'price' => $item->amount_subtotal,
+                ]);
+            }
+           
+        }
         if ($request->type === 'charge.succeeded') {
             try {
                 \Stripe\Stripe::setApiKey('sk_test_51LNA6mE1yxdaPwWfP4ShSrXnASCdZF6WP8f8ikiAMdWcRnOaiAiPyKFhV0QGs4XvE4gKtqHM9osEDs7S6mkUi9jl00IQ1OPeqD');
-                $customer = \Stripe\Customer::retrieve(
-                    $request->data['object']['customer'],
-                    []
-                );
+
                 Payment::create([
                     'stripe_id' => $request->data['object']['id'],
                     'amount' => $request->data['object']['amount'],
                     'email' => $request->data['object']['billing_details']['email'],
                     'name' => $request->data['object']['billing_details']['name'],
                 ]);
-                $order = Order::create([
-                    'user_id' => $customer['metadata']['user_id'],
-                    'name' => $customer['name'],
-                    'address' => $customer['address']['line1'],
-                    'phone' => $customer['phone'],
-                    'email' => $customer['email'],
-                    'note' => 'v',
-                    'total' => $request->data['object']['amount'],
-                    'order_status' => 1,
-                ]);
-                $cartItems = \Cart::getContent();
-                // foreach ($cartItems as $item) {
-                OrderDetail::create([
-                    'order_id' => 3,
-                    'product_id' => 3,
-                    'qty' => 1,
-                    'price' => 100,
-                ]);
-                //}
+                // $order = Order::create([
+                //     'user_id' => $customer['metadata']['user_id'],
+                //     'name' => $customer['name'],
+                //     'address' => $customer['address']['line1'],
+                //     'phone' => $customer['phone'],
+                //     'email' => $customer['email'],
+                //     'note' => 'v',
+                //     'total' => $request->data['object']['amount'],
+                //     'order_status' => 1,
+                // ]);
+                // $cartItems = \Cart::getContent();
+
+                // // foreach ($cartItems as $item) {
+                //     for ($i=3; $i < 6; $i++) { 
+                //         OrderDetail::create([
+                //             'order_id' => 3,
+                //             'product_id' => $i,
+                //             'qty' => 1,
+                //             'price' => count($cartItems),
+                //         ]);
+                //     }
+                // //}
+
+
             } catch (\Exception $e) {
                 return $e->getMessage();
             }
