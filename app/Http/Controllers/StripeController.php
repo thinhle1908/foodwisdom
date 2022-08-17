@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,22 +99,30 @@ class StripeController extends Controller
                     'stripe_id' => $request->data['object']['id'],
                     'amount' => $request->data['object']['amount'],
                     'email' => $request->data['object']['billing_details']['email'],
-                    'name' =>$customer['name'],
+                    'name' => $request->data['object']['billing_details']['name'],
                 ]);
-                Order::create([
-                    'user_id'=> $customer['metadata']['user_id'] ,
-                    'name'=>$customer['name'],
-                    'address'=>$customer['address']['line1'],
-                    'phone'=>$customer['phone'],
-                    'email'=>$customer['email'],
-                    'note'=>'v',
-                    'total'=>$request->data['object']['amount'],
-                    'order_status'=>1,
+                $order = Order::create([
+                    'user_id' => $customer['metadata']['user_id'],
+                    'name' => $customer['name'],
+                    'address' => $customer['address']['line1'],
+                    'phone' => $customer['phone'],
+                    'email' => $customer['email'],
+                    'note' => 'v',
+                    'total' => $request->data['object']['amount'],
+                    'order_status' => 1,
                 ]);
+                $cartItems = \Cart::getContent();
+                // foreach ($cartItems as $item) {
+                OrderDetail::create([
+                    'order_id' => 3,
+                    'product_id' => 3,
+                    'qty' => 1,
+                    'price' => 100,
+                ]);
+                //}
             } catch (\Exception $e) {
                 return $e->getMessage();
             }
         }
     }
-    
 }

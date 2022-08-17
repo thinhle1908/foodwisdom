@@ -19,6 +19,7 @@ class CreateOrderDetailsTable extends Migration
             $table->integer('qty');
             $table->bigInteger('price');
             $table->timestamps();
+            $table->primary(['order_id','product_id']);
         });
     }
 
