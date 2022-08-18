@@ -125,7 +125,6 @@ class StripeController extends Controller
                     'price' => $item->amount_subtotal,
                 ]);
             }
-           
         }
         if ($request->type === 'charge.succeeded') {
             try {

@@ -68,7 +68,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::post('clear', [CartController::class, 'clearAllCart'])->name('cart.clear')->middleware(['auth']);
     Route::get('/checkout', [CheckOutController::class, 'index'])->middleware(['auth'])->name('checkout.index');
     Route::post('/checkout', [CheckOutController::class, 'payment'])->name('checkout.payment')->middleware(['auth']);
-    Route::get('/payemnt/success', [CheckOutController::class, 'success'])->middleware(['auth'])->name('checkout.success');
+    Route::get('payment/success', [CheckOutController::class, 'success'])->middleware(['auth'])->name('checkout.success');
+    Route::get('payment/handle-success', [CheckOutController::class, 'handleSuccess'])->middleware(['auth'])->name('checkout.handle.success');
     Route::get('/payemnt/cancel', [CheckOutController::class, 'cancel'])->middleware(['auth'])->name('checkout.cancel');
  
 });

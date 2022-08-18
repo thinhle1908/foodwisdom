@@ -89,8 +89,12 @@ class CheckOutController extends Controller
     public function cancel(){
         
     }
-    public function success(){
-
+    public function handleSuccess(Request $request){
+        \Cart::clear();
+        return redirect('payment/success');
+    }
+    public function success(Request $request){
+        return view('test');
     }
     public function payment(Request $request)
     {
@@ -141,8 +145,8 @@ class CheckOutController extends Controller
             'line_items' => $line_item,
 
             'mode' => 'payment',
-            'success_url' => asset('payment/success'),
-            'cancel_url' => asset('payment/cancel'),
+            'success_url' => asset('payment/handle-success'),
+            'cancel_url' => asset('payment/handle-cancel'),
             'customer'=>$customer,
             "metadata" =>['user_id'=> Auth::user()->id],
         ]);
