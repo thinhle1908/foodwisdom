@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -99,8 +100,7 @@ class CheckOutController extends Controller
     {
         if ($request->session()->has('success')) {
             return view('paymentSuccess');
-        }
-        else{
+        } else {
             return redirect('/');
         }
     }
@@ -116,49 +116,65 @@ class CheckOutController extends Controller
             'province' => 'required|string',
             'country' => 'required|string',
             'zipcode' => 'required|alpha_num',
+            'paymentMethod' => 'required|between:1,2',
         ]);
-        \Stripe\Stripe::setApiKey('sk_test_51LNA6mE1yxdaPwWfP4ShSrXnASCdZF6WP8f8ikiAMdWcRnOaiAiPyKFhV0QGs4XvE4gKtqHM9osEDs7S6mkUi9jl00IQ1OPeqD');
+        if ($request->paymentMethod == 1) {
+            \Stripe\Stripe::setApiKey('sk_test_51LNA6mE1yxdaPwWfP4ShSrXnASCdZF6WP8f8ikiAMdWcRnOaiAiPyKFhV0QGs4XvE4gKtqHM9osEDs7S6mkUi9jl00IQ1OPeqD');
 
-        $cartItems = \Cart::getContent();
-        $line_item = [];
-        foreach ($cartItems as $item) {
-            $line_item[] = [
-                'description' => $item->id,
-                'price_data' => [
-                    'currency' => 'usd',
-                    'product_data' => [
-                        'name' => $item->name,
+            $cartItems = \Cart::getContent();
+            $line_item = [];
+            foreach ($cartItems as $item) {
+                $line_item[] = [
+                    'description' => $item->id,
+                    'price_data' => [
+                        'currency' => 'usd',
+                        'product_data' => [
+                            'name' => $item->name,
+                        ],
+                        'unit_amount' => $item->price,
+
                     ],
-                    'unit_amount' => $item->price,
+                    'quantity' => $item->quantity,
 
-                ],
-                'quantity' => $item->quantity,
+                ];
+            }
+            $user_info = array("line1" => $request->line1, "line2" => $request->line2, "city" => $request->city, "state" => $request->province, "postal_code" => $request->zipcode, "country" => $request->contry);
+            $customer = \Stripe\Customer::create(array(
+                'name'    => $request->name,
+                'email'   => $request->email,
+                'phone'   => $request->phone,
+                'address' => $user_info,
 
-            ];
+                // 'address_line2' =>$request->line2,
+                // 'city' => $request->city,
+                // 'province' => $request->province,
+                // 'country' => $request->country,
+                // 'zipcode' => $request->zipcode,
+            ));
+            $session = \Stripe\Checkout\Session::create([
+                'line_items' => $line_item,
+
+                'mode' => 'payment',
+                'success_url' => asset('payment/handle-success'),
+                'cancel_url' => asset('payment/handle-cancel'),
+                'customer' => $customer,
+                "metadata" => ['user_id' => Auth::user()->id],
+            ]);
+
+            return redirect($session->url);
         }
-        $user_info = array("line1" => $request->line1, "line2" => $request->line2, "city" => $request->city, "state" => $request->province, "postal_code" => $request->zipcode, "country" => $request->contry);
-        $customer = \Stripe\Customer::create(array(
-            'name'    => $request->name,
-            'email'   => $request->email,
-            'phone'   => $request->phone,
-            'address' => $user_info,
-
-            // 'address_line2' =>$request->line2,
-            // 'city' => $request->city,
-            // 'province' => $request->province,
-            // 'country' => $request->country,
-            // 'zipcode' => $request->zipcode,
-        ));
-        $session = \Stripe\Checkout\Session::create([
-            'line_items' => $line_item,
-
-            'mode' => 'payment',
-            'success_url' => asset('payment/handle-success'),
-            'cancel_url' => asset('payment/handle-cancel'),
-            'customer' => $customer,
-            "metadata" => ['user_id' => Auth::user()->id],
-        ]);
-
-        return redirect($session->url);
+        else {
+            $cartItems = \Cart::getContent();
+            $order = Order::create([
+                'user_id' =>  Auth::user()->id,
+                'name' => $request->name,
+                'address' => $request->line1,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'note' => 'v',
+                'total' => \Cart::getTotal(),
+                'order_status' => 1,
+            ]);
+        }
     }
 }
