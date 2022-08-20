@@ -86,15 +86,23 @@ class CheckOutController extends Controller
     {
         //
     }
-    public function cancel(){
-        
+    public function cancel()
+    {
     }
-    public function handleSuccess(Request $request){
+    public function handleSuccess(Request $request)
+    {
         \Cart::clear();
+        session()->flash('success', 'Product is Added to Cart Successfully !');
         return redirect('payment/success');
     }
-    public function success(Request $request){
-        return view('test');
+    public function success(Request $request)
+    {
+        if ($request->session()->has('success')) {
+            return view('paymentSuccess');
+        }
+        else{
+            return redirect('/');
+        }
     }
     public function payment(Request $request)
     {
@@ -115,26 +123,26 @@ class CheckOutController extends Controller
         $line_item = [];
         foreach ($cartItems as $item) {
             $line_item[] = [
-                'description'=>$item->id,
+                'description' => $item->id,
                 'price_data' => [
                     'currency' => 'usd',
                     'product_data' => [
                         'name' => $item->name,
                     ],
                     'unit_amount' => $item->price,
-                   
+
                 ],
                 'quantity' => $item->quantity,
-               
+
             ];
         }
-        $user_info = array("line1" =>$request->line1 ,"line2" => $request->line2, "city" => $request->city, "state" => $request->province, "postal_code" => $request->zipcode,"country"=>$request->contry);
+        $user_info = array("line1" => $request->line1, "line2" => $request->line2, "city" => $request->city, "state" => $request->province, "postal_code" => $request->zipcode, "country" => $request->contry);
         $customer = \Stripe\Customer::create(array(
             'name'    => $request->name,
             'email'   => $request->email,
             'phone'   => $request->phone,
-            'address' => $user_info,    
-            
+            'address' => $user_info,
+
             // 'address_line2' =>$request->line2,
             // 'city' => $request->city,
             // 'province' => $request->province,
@@ -147,8 +155,8 @@ class CheckOutController extends Controller
             'mode' => 'payment',
             'success_url' => asset('payment/handle-success'),
             'cancel_url' => asset('payment/handle-cancel'),
-            'customer'=>$customer,
-            "metadata" =>['user_id'=> Auth::user()->id],
+            'customer' => $customer,
+            "metadata" => ['user_id' => Auth::user()->id],
         ]);
 
         return redirect($session->url);
