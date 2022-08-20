@@ -16,6 +16,7 @@ class OrderSeeder extends Seeder
     {
         DB::table('orders')->insert([
             'user_id'=>2,
+            'customer_stripe_id'=>"-1",
             'name'=>'Duc Thinh',
             'address'=>'Quan 1,Thanh Pho Ho Chi Minh',
             'phone'=>'0123456789',
@@ -29,6 +30,7 @@ class OrderSeeder extends Seeder
         ]);
         DB::table('orders')->insert([
             'user_id'=>2,
+            'customer_stripe_id'=>"-1",
             'name'=>'Duong Van Quang',
             'address'=>'Toa nha Bitexco,Quan 2,Thanh Pho Ho Chi Minh',
             'phone'=>'0123456789',

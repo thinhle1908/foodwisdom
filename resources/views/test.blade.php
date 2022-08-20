@@ -8,6 +8,8 @@
 </head>
 <body>
     {{var_dump($customer)}}
-    <p style="color: red">{{$customer['name']}}</p>
+    
+    <p style="color: red">{{$customer['order_id']}}</p>
+    
 </body>
 </html>

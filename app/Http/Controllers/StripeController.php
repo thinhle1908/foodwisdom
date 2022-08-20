@@ -91,10 +91,8 @@ class StripeController extends Controller
         $stripe = new \Stripe\StripeClient(
             'sk_test_51LNA6mE1yxdaPwWfP4ShSrXnASCdZF6WP8f8ikiAMdWcRnOaiAiPyKFhV0QGs4XvE4gKtqHM9osEDs7S6mkUi9jl00IQ1OPeqD'
         );
-
-        $customer = $stripe->checkout->sessions->allLineItems("cs_test_a1QdeXYzaSaouuTd17jIrQloMZ6LPPu0kN5K7OUQ0krZ4RYOM8ctsLWIrW");
-
-
+        $customer = Order::where('customer_stripe_id','cus_MHRTzkiia0qMWZ')->get(['order_id'])->first();
+    
         return view('test')->with('customer', $customer);
     }
     public function webhook(Request $request)
@@ -108,6 +106,7 @@ class StripeController extends Controller
             );
             $order = Order::create([
                 'user_id' => $request->data['object']['metadata']['user_id'],
+                'customer_stripe_id' =>  $customer['id'],
                 'name' => $customer['name'],
                 'address' => $customer['address']['line1'],
                 'phone' => $customer['phone'],
@@ -130,8 +129,11 @@ class StripeController extends Controller
             try {
                 \Stripe\Stripe::setApiKey('sk_test_51LNA6mE1yxdaPwWfP4ShSrXnASCdZF6WP8f8ikiAMdWcRnOaiAiPyKFhV0QGs4XvE4gKtqHM9osEDs7S6mkUi9jl00IQ1OPeqD');
 
+                $order = Order::where('customer_stripe_id',$request->data['object']['customer'])->first();
+
                 Payment::create([
                     'stripe_id' => $request->data['object']['id'],
+                    'order_id'=>$order['order_id'],
                     'amount' => $request->data['object']['amount'],
                     'email' => $request->data['object']['billing_details']['email'],
                     'name' => $request->data['object']['billing_details']['name'],

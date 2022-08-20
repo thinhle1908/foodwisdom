@@ -167,6 +167,7 @@ class CheckOutController extends Controller
             $cartItems = \Cart::getContent();
             $order = Order::create([
                 'user_id' =>  Auth::user()->id,
+                'customer_stripe_id' => -1,
                 'name' => $request->name,
                 'address' => $request->line1,
                 'phone' => $request->phone,

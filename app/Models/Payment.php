@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     protected $table = "payments";
-    protected $fillable = ['stripe_id', 'amount','email','name','created_at','updated_at'];
+    protected $fillable = ['stripe_id','order_id', 'amount','email','name','created_at','updated_at'];
     public $timestamps = true;
     use HasFactory;
     public function order()
