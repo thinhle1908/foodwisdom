@@ -17,13 +17,13 @@ class OrdersController extends Controller
      */
     public function userindex()
     {
-        $orders = Order::where('user_id', Auth::user()->id)->get();
+        $orders = Order::orderBy('order_id','desc')->where('user_id', Auth::user()->id)->get();
         $getorderXorderDetails = [];
         $order_details = [];
         foreach ($orders as $order) {
             $order_details = OrderDetail::where('order_id', $order->order_id)->get();
             foreach($order_details as $order_detail){
-                $product =  Product::find($order_detail['product_id'])->first()->get();
+                $product =  Product::where('id',$order_detail['product_id'])->get();
                $order_detail['image'] = $product[0]['image'];
                $order_detail['name'] = $product[0]['product_name'];
             }
