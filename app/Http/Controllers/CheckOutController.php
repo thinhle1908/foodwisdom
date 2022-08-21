@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -176,6 +178,22 @@ class CheckOutController extends Controller
                 'total' => \Cart::getTotal(),
                 'order_status' => 1,
             ]);
+            foreach($cartItems as $item){
+                OrderDetail::create([
+                    'order_id' => $order->order_id,
+                    'product_id' => $item->id,
+                    'qty' => $item->quantity,
+                    'price' => $item->price,
+                ]);
+            }
+            Payment::create([
+                'stripe_id' => -1,
+                'order_id'=>$order->order_id,
+                'amount' => -1,
+                'email' => $request->email,
+                'name' => $request->name,
+            ]);
+            return redirect()->route('checkout.handle.success');
         }
     }
 }

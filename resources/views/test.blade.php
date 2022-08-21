@@ -7,9 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    {{var_dump($customer)}}
+    {{var_dump($orders)}}
     
-    <p style="color: red">{{$customer['order_id']}}</p>
+    <p style="color: red">{{var_dump($orders[0]['order_details'][0]['product_id'])}}</p>
+    
     
 </body>
 </html>

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrdersController extends Controller
 {
@@ -14,13 +17,25 @@ class OrdersController extends Controller
      */
     public function userindex()
     {
-        //
+        $orders = Order::where('user_id', Auth::user()->id)->get();
+        $getorderXorderDetails = [];
+        $order_details = [];
+        foreach ($orders as $order) {
+            $order_details = OrderDetail::where('order_id', $order->order_id)->get();
+            foreach($order_details as $order_detail){
+                $product =  Product::find($order_detail['product_id'])->first()->get();
+               $order_detail['image'] = $product[0]['image'];
+               $order_detail['name'] = $product[0]['product_name'];
+            }
+            $getorderXorderDetails[] = ['order_id' => $order->order_id, 'order_details' => $order_details];
+        }
+        return view('userOrder')->with('orders', $getorderXorderDetails);
     }
     public function adminindex()
     {
         $orders = Order::orderBy('created_at', 'desc')->paginate(10);
+
         return view('adminOrder')->with('orders', $orders);
-        
     }
 
     /**
@@ -64,7 +79,7 @@ class OrdersController extends Controller
     public function edit($id)
     {
         $order = Order::find($id);
-        return view('adminEditOrder')->with('order',$order);
+        return view('adminEditOrder')->with('order', $order);
     }
 
     /**
@@ -81,7 +96,7 @@ class OrdersController extends Controller
         ]);
         $order = Order::find($id);
         $order->update([
-            'order_status' =>$request->order_status
+            'order_status' => $request->order_status
         ]);
         return redirect('/dashboard/orders');
     }
@@ -97,6 +112,5 @@ class OrdersController extends Controller
         $order = Order::find($order_id);
         $order->delete();
         return redirect('/dashboard/orders');
-    
     }
 }

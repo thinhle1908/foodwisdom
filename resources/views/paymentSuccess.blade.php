@@ -17,7 +17,7 @@
                         <strong>Success!</strong> Indicates a successful or positive action.
                     </div>
                     
-                    <a href="/order"><button type="button" class="btn btn-primary" style="margin-top:200px">View Order</button></a>
+                    <a href="/orders"><button type="button" class="btn btn-primary" style="margin-top:200px">View Order</button></a>
                 </div>
                
             </div>

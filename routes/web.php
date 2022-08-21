@@ -46,6 +46,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     //Delete-Order
     Route::get('/delete-order/{id}', [OrdersController::class, 'destroy'])->middleware(['auth', 'isAdmin']);
     //View Order
+    Route::get('/orders', [OrdersController::class, 'userindex'])->middleware(['auth', 'isAdmin']);
     Route::get('/dashboard/orders', [OrdersController::class, 'adminindex'])->middleware(['auth', 'isAdmin']);
     //Product
     //Delete Product
